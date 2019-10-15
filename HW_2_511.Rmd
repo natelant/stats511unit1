@@ -1,0 +1,95 @@
+---
+title: "511 Homework 2"
+author: "NateLant"
+date: "10/3/2019"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(tidyverse)
+library(tidycensus)
+library(Hmisc)
+library(shiny)
+library(DBI)
+library(MVR)
+```
+
+## Problem 2.3
+
+For comparing two population means when the population distributions have the same standard deviation, the standard deviation is sometimes referred to as a nuisance parameter. Explain why it might be considered a nuisance.
+
+**Answer:** When the standard deviations are the same, the mean should be used to compare the distributions of the two populations. 
+
+## Problem 2.6
+
+What is wrong with the hypothesis that Y 2 - Y 1 is 0?
+
+**Answer:** This would infer that there is no difference in the population means. Y(bar) refers to an unkown perameter.
+
+## Problem 2.7
+
+What can be said from this statement about a p-value for the hypothesis that the mean difference is zero? 
+
+**Answer:** The mean of 0 is not within the confidence interval. Therefore the p value must be less than 0.05
+
+## Problem 2.13
+
+(a) Compute the averages and the sample standard deviations for each group separately. 
+
+```{r my_data_13}
+
+my_data_13 %>%
+  group_by(Diet) %>%
+  summarise(mean = mean(BP), sd = sd(BP))
+```
+(b) Compute the pooled estimate of standard deviation using the formula in Section 2.3.2. 
+
+```{r my_data_13}
+# There are two methods to find it. Use a function or write out the equation.
+pooled.sd(my_data_13)
+# This is the second, slightly more complicated way.
+n1 <- 7
+n2 <- 7
+s1 <- sd(my_data_13$BP[my_data_13$Diet == "FishOil"]) 
+s2 <- sd(my_data_13$BP[my_data_13$Diet == "RegularOil"]) # why is this wrong?
+
+Sp <- sqrt(((n1-1)*s1^2+(n2-1)*s2^2)/(n1+n2-2))
+```
+
+(c) Compute SE.Y 2 ! Y 1/ using the formula in Section 2.3.2. 
+
+(d) What are the degrees of freedom associated with the pooled estimate of standard deviation? What is the 97.5th percentile of the t-distribution with this many degrees of freedom? 
+
+(e) Construct a 95% conﬁdence interval for !2 ! !1 using the formula in Section 2.3.3. 
+
+(f) Compute the t-statistic for testing equality as shown in Section 2.3.5. 
+
+(g) Find the one-sided p-value (as evidence that the ﬁsh oil diet resulted in greater reduction of blood pressure) by comparing the t-statistic in (f) to the percentiles of the appropriate t-distribution (by reading the appropriate percentile from a computer program or calculator).
+
+## Problem 2.18
+
+## Problem 2.22
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
